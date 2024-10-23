@@ -1,0 +1,17 @@
+{
+  "name": "fulstack",
+  "version": "1.0.0",
+  "description": "integration",
+  "main": "script.js",
+  "type": "module",
+  "scripts": {
+    "start": "node script.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "fulstack": "file:"
+  }
+}

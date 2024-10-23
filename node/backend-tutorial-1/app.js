@@ -13,14 +13,25 @@ const port = 3000// there are 65,535 ports available for use //it listens in por
 app.get('/', (req, res) => {
   res.send('Hello World!')//callback function is used to send the response to the client
 })
+const githubData = {
+    name: 'Siddhartha',
+    username: 'Siddhar',
+    email: 'sdf',
+    location: 'India',
+    url: 'dsfsddf',
+    avatar: 'https://avatars.githubusercontent.com/u/59868267?v=4',
+}
 
 app.get('/twitter', (req,res) => {
     res.send('Siddharthaaa21')
 
 })
+app.get('/github',(req,res)=>{
+    res.json(githubData)
+
+})
 
 
-
-app.listen(proess.env.PORT, () => {
+app.listen(process.env.PORT, () => {
   console.log(`Example app listening on port ${port}`)
 })
