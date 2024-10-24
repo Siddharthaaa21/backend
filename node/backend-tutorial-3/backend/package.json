@@ -1,0 +1,17 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "backend models",
+  "main": "index.js",
+  "scripts": {
+    "install": ""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "backend": "file:",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "mongoose": "^8.7.2"
+  }
+}
