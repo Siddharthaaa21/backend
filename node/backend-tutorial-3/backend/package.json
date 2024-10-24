@@ -4,14 +4,13 @@
   "description": "backend models",
   "main": "index.js",
   "scripts": {
-    "install": ""
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "backend": "file:",
     "dotenv": "^16.4.5",
-    "express": "^4.21.1",
-    "mongoose": "^8.7.2"
+    "express": "^4.21.1"
   }
 }
