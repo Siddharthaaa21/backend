@@ -1,0 +1,11 @@
+fastapi endpoints
+
+GET to get info
+POST create something 
+PUT update
+DELETE delete entry
+
+further we can use the decorators to define the endpoints
+@app.get('/')
+def home():
+    return {'data':'hello world'}

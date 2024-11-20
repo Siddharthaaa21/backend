@@ -1,0 +1,38 @@
+there can be multiple path parameters in a single path.
+for example:
+```
+@app.get("/items/{item_id}/users/{user_id}")
+def read_item(item_id: int, user_id: int):
+    return {"item_id": item_id, "user_id": user_id}
+```
+
+what is path parameters?
+path parameters are the parameters that are part of the url.
+for example:
+```
+@app.get("/items/{item_id}")
+def read_item(item_id: int):
+    return {"item_id": item_id}
+```
+
+
+import Path from fastapi
+also then we could use it to 
+```
+from fastapi import FastAPI, Path
+```
+then we could use it to define the path parameters
+``` 
+@app.get("/items/{item_id}")
+def read_item(item_id: int = Path(..., title="The ID of the item to get")):
+    return {"item_id": item_id}
+```
+
+important aspect of path is we could add gt and lt to it aswell
+
+```
+@app.get("/items/{item_id}")
+def read_item(
+    item_id: int = Path(..., title="The ID of the item to get", gt=0, lt=1000)
+):
+    return {"item_id": item_id}

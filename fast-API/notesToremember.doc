@@ -1,0 +1,29 @@
+step one is to install the depend for the api
+```bash
+
+python3 pip install fastapi
+```
+then install uvicorn
+```bash
+pip install uvicorn
+```
+what is uvicorn?
+- Uvicorn is a lightning-fast ASGI server implementation, using uvloop and httptools.
+- ASGI is a standard for Python asynchronous web apps and servers to communicate with each other.
+
+then the very next step is to create a file called main.py
+```python
+
+
+
+the part of execution
+
+import fastapi
+import uvicorn
+
+further create their object 
+form fastapi import FastAPI
+
+app=FastAPI() //similer to mongoes object app creation 
+
+
