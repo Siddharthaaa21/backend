@@ -1,7 +1,7 @@
 
 
 from fastapi import FastAPI,Path
-
+from typing import Optional
 app = FastAPI()
 
 
@@ -48,5 +48,25 @@ def get_student(student_id:int =Path(None,description="The ID of the student you
 
 # so there is the field for the student_id and the data is going to be returned based on the student_id 
 
+@app.get("/get-by-name")
+def get_student(name:str):
+    for(student_id,student) in students.items():
+        if student["name"]==name:
+            return student
+        else:
+            return {"Data":"Not Found"}
+# //could make it optionsla by importaing query
 
+# from typing import Optional
+# def get_student(*,name:str,age:Optional[int]=None):
 
+@app.get("/get-by-id-name-age/{student_id}")
+def get_student_class(*,student_id:int,name:str,age:Optional[int]=None):
+    for student_id in students:
+        if students[student_id]["name"]==name and students[student_id]["age"]==age:
+            return students[student_id] 
+
+    # return students[student_id]
+
+    
+    #  return students[student_id]/

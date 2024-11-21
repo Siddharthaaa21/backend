@@ -1,0 +1,2 @@
+difference between path and wuery paramether is that 
+path parameter is used to identify a specific resource or resources, whereas query parameter is used to sort/filter the resources.
