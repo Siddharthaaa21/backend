@@ -2,6 +2,8 @@
 
 from fastapi import FastAPI,Path
 from typing import Optional
+from pydantic import BaseModel
+# this is the import for the fastapi and the path and the optional and the base model
 app = FastAPI()
 
 
@@ -23,6 +25,12 @@ students={
         "class":"year 14"
     }
 }
+class Student(BaseModel):
+    name:str
+    age:int
+    class_:str
+# this is the class that we are going to use in the api
+
 # this is the data that we are going to use in the api in json format
 
 @app.get("/")
@@ -70,3 +78,11 @@ def get_student_class(*,student_id:int,name:str,age:Optional[int]=None):
 
     
     #  return students[student_id]/
+
+@app.post("/create-student/{student_id}")
+
+def create_student(student_id:int,student:Student):
+    if student_id in students:
+        return {"Error":"Student exists"}
+    students[student_id]=student
+    return students[student_id]
