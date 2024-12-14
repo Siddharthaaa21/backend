@@ -2,6 +2,7 @@
    import mongoose from 'mongoose';
    import cors from 'cors';
    import cookieParser from 'cookie-parser';
+   //for files we use multer
 
     import { MONGO_URI } from './constants';
 
@@ -32,10 +33,11 @@
 
     //cookies are to take the data in the form of cookies
     app.use(cookieParser());
-    
+    //to take the data in the form of cookies
     //
     //  origin: 'http://localhost:3000',
     // app.use(express.json());
 
 export {app};
-// Compare this snippet from node/backend-tutorial-4/backend/src/constants.js:    
+// Compare this snippet from node/backend-tutorial-4/backend/src/constants.js:   
+

@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
 import { MONGO_URI } from "../constants";
+import {app} from "../app";
+import {connectDB} from "../db";
+
  
 connectDB()
 .then(()=>{
