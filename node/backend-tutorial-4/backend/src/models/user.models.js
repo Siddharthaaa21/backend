@@ -1,73 +1,102 @@
-import mongoose,{Schema} from 'mongoose';
-import bcrypt from "bcrypt";
+// Documentation examples from the previous schema:
+// - `username` includes properties like `unique`, `lowercase`, and `index` for faster searches.
+// - `password` is hashed using bcrypt before saving.
+// - Methods include `isPasswordCorrect` to compare passwords and `generateAccessToken` for token generation.
+
+import mongoose, { Schema } from "mongoose";
 import jwt from "jsonwebtoken";
-//how to encrypt the password now???
+import bcrypt from "bcrypt";
 
-//Schema to destructure the object
+const userSchema = new Schema(
+    {
+        username: {
+            type: String,
+            required: true,
+            unique: true,
+            lowercase: true,
+            trim: true, 
+            index: true // Improves search performance.
+        },
+        email: {
+            type: String,
+            required: true,
+            unique: true,
+            lowercase: true,
+            trim: true, 
+        },
+        fullName: {
+            type: String,
+            required: true,
+            trim: true, 
+            index: true
+        },
+        avatar: {
+            type: String, // Cloudinary URL for user avatar.
+            required: true,
+        },
+        coverImage: {
+            type: String, // Cloudinary URL for cover image.
+        },
+        watchHistory: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "Video"
+            }
+        ],
+        password: {
+            type: String,
+            required: [true, 'Password is required']
+        },
+        refreshToken: {
+            type: String
+        }
 
-
-const userSchema = new Schema({
-    username:{
-        type:String,
-        required:true,
-        unique:true,
-        lowercase:true,
-        trim:true,
-        index:true // to make the search faster tho it will take more space and take few resources
     },
-    email:{
-        type:String,
-        required:true,
-        unique:true,
-        lowercase:true,
-        trim:true,
-        
-
-    },
-    fullname:{
-        type:String,
-        required:true,
-        trim:true
-    },
-    avatar:{
-        type:String,
-        default:"https://www.gravatar.com/avatar"
-    },
-    coverImage:{
-        type:String
-    },
-    watchList:[{// this syntax is used to create an array of objects{}!
-        type:Schema.Types.ObjectId,
-        ref:'Videos'
-    }],
-    passwoerd:{
-        tpe:String,
-        required:[true,'Password is required']
+    {
+        timestamps: true // Adds `createdAt` and `updatedAt` fields.
     }
+)
 
-});
+// Hash the password before saving the user document.
+userSchema.pre("save", async function (next) {
+    if(!this.isModified("password")) return next();
 
-userSechema.pre('save',async function(next){
-    if(this.isModified('password')){
-        this.password=await bcrypt.hash(this.password,8);
-    }
+    this.password = await bcrypt.hash(this.password, 10);
     next();
-}); 
-// to inject methods updateone delecte one custtom methods are also posible 
-userSchema.methods.isPasswordCorrect=async function (password){
-    return await bcrypt.compare(password,this.password);  // this.password is the hashed password
+})
+
+// Compare the provided password with the hashed password.
+userSchema.methods.isPasswordCorrect = async function(password){
+    return await bcrypt.compare(password, this.password);
 }
 
-
-userSechema.methods.generateAccessToken=async function(){
-    jwt.sign({
-        id:this._id
-    },
-    process.env.JWT_SECRET,{
-        expiresIn:process.env.JWT_EXPIRES
-    })
+// Generate an access token.
+userSchema.methods.generateAccessToken = function(){
+    return jwt.sign(
+        {
+            _id: this._id,
+            email: this.email,
+            username: this.username,
+            fullName: this.fullName
+        },
+        process.env.ACCESS_TOKEN_SECRET,
+        {
+            expiresIn: process.env.ACCESS_TOKEN_EXPIRY
+        }
+    );
 }
-userSchema.methods.generateAccessToken=async function(){}
 
-export const User=mongoose.model('Users',userSchema); 
+// Generate a refresh token.
+userSchema.methods.generateRefreshToken = function(){
+    return jwt.sign(
+        {
+            _id: this._id,
+        },
+        process.env.REFRESH_TOKEN_SECRET,
+        {
+            expiresIn: process.env.REFRESH_TOKEN_EXPIRY
+        }
+    );
+}
 
+export const User = mongoose.model("User", userSchema);
